@@ -1,0 +1,33 @@
+<%- include("_header") -%>
+<h1>Select a file with products for database insert</h1>
+<p>Choose a CSV file with four fields on each line: ID, name, description, and price.</p>
+
+<form id="product-form">
+  <div class="mb-3">
+    <input class="form-control" type="file" name="filename" accept=".csv,text/csv" required>
+  </div>
+  <button class="btn btn-primary" type="submit">Upload</button>
+</form>
+<p id="result" class="mt-3" aria-live="polite"></p>
+
+<script>
+  document.querySelector("#product-form").addEventListener("submit", async (event) => {
+    event.preventDefault();
+    const resultElement = document.getElementById("result");
+    resultElement.textContent = "Uploading...";
+
+    try {
+      const response = await fetch("/input", {
+        method: "POST",
+        body: new FormData(event.target)
+      });
+      const message = await response.text();
+      resultElement.textContent = message;
+      resultElement.className = response.ok ? "mt-3 text-success" : "mt-3 text-danger";
+    } catch (err) {
+      resultElement.textContent = "Error: " + err.message;
+      resultElement.className = "mt-3 text-danger";
+    }
+  });
+</script>
+<%- include("_footer") -%>

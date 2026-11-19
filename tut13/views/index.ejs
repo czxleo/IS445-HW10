@@ -1,0 +1,33 @@
+<%- include("_header") -%>
+<h1>PostgreSQL Application</h1>
+
+<% if (message !== "success") { %>
+  <h2>We encountered an error</h2>
+  <p class="text-danger"><%= message %></p>
+<% } else { %>
+  <h2>There are <%= model.length %> products in the database</h2>
+  <div class="table-responsive">
+    <table class="table table-striped">
+      <thead class="table-dark">
+        <tr>
+          <th scope="col">ID</th>
+          <th scope="col">Name</th>
+          <th scope="col">Description</th>
+          <th scope="col">Price</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% model.forEach((product) => { %>
+          <tr>
+            <td><%= product.prod_id %></td>
+            <td><%= product.prod_name %></td>
+            <td><%= product.prod_desc %></td>
+            <td><%= product.prod_price %></td>
+          </tr>
+        <% }) %>
+      </tbody>
+    </table>
+  </div>
+<% } %>
+
+<%- include("_footer") -%>
